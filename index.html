@@ -638,6 +638,8 @@ html:has(.cam[open]) { overflow: hidden; }
 
 
 /* the Flytrex film plays in the page, on a click; the link to YouTube stays under it */
+/* an opening frame of a longer mail or page fades out where it is cut; a click opens the whole */
+.paste__btn[data-tall] img { -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent); mask-image: linear-gradient(to bottom, #000 82%, transparent); }
 .film { margin-top: 1rem; max-width: 40rem; }
 .film__frame { position: relative; aspect-ratio: 16 / 9; background: #0b0b0b; overflow: hidden; }
 .film__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -1104,9 +1106,9 @@ a.film__play { text-decoration: none; }
       <p class="prose">The house&rsquo;s mail for its end-of-year sale in December 2024, before my time. Then mine: the May 2026 sale on Bidspirit, and the first mail of sale 138 in November, built by BINA. Each opens whole on a click.</p>
     </div>
     <div class="row row--3" style="max-width:56rem">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-2024.webp" data-tall><img src="assets/mail-2024-top.webp" width="680" height="1060" alt="The opening of the house&rsquo;s mail for its end-of-year sale, December 2024: the logo, a grid of eight lot photographs, and centred lines of Hebrew" loading="lazy"></button><figcaption class="cap">December 2024, the house&rsquo;s mail before mine</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-old.webp" data-tall><img src="assets/mail-old-top.webp" width="680" height="1030" alt="The opening of my mail for the May 2026 sale on Bidspirit: centred lines of Hebrew in blue boxes" loading="lazy"></button><figcaption class="cap">May 2026, the sale on Bidspirit</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-138-m1.webp" data-tall><img src="assets/mail-138-m1-top.webp" width="680" height="852" alt="The opening of sale 138, mail 1: the house seal over the sale&rsquo;s date and a greeting, on a ground of the sale&rsquo;s objects" loading="lazy"></button><figcaption class="cap">November 2026, sale 138, mail 1</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-2024.webp" data-tall><img src="assets/mail-2024-top.webp" width="680" height="900" alt="The opening of the house&rsquo;s mail for its end-of-year sale, December 2024: the logo, a grid of eight lot photographs, and centred lines of Hebrew" loading="lazy"></button><figcaption class="cap">December 2024, the house&rsquo;s mail before mine</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-old.webp" data-tall><img src="assets/mail-old-top.webp" width="680" height="900" alt="The opening of my mail for the May 2026 sale on Bidspirit: centred lines of Hebrew in blue boxes" loading="lazy"></button><figcaption class="cap">May 2026, the sale on Bidspirit</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-138-m1.webp" data-tall><img src="assets/mail-138-m1-top.webp" width="680" height="900" alt="The opening of sale 138, mail 1: the house seal over the sale&rsquo;s date and a greeting, on a ground of the sale&rsquo;s objects" loading="lazy"></button><figcaption class="cap">November 2026, sale 138, mail 1</figcaption></figure>
     </div>
     <div class="turn">
       <h3 class="display">The posters</h3>
@@ -1157,6 +1159,7 @@ a.film__play { text-decoration: none; }
       <figure class="paste" style="max-width:22rem"><div class="paste__still"><img src="assets/portrait.webp" width="652" height="815" alt="Asaf Calderon, outdoors in autumn" loading="lazy"></div></figure>
       <div class="prose">
         <p>I am a strategist, writer and deck builder, trained as a storyteller. Since 2008 I have shaped positioning, copy and pitch decks for businesses launching or growing in their market. Since 2024 I also build AI products.</p>
+        <p>I am film-trained: my eye is one with the film camera. I bring both sides: art and marketing, mass media and the curated niche, creative and business.</p>
         <p>Clients get a storyteller’s structure, a translator’s precision and a producer’s delivery: a clear story, tested, ready to present.</p>
         <p>I am from Tel Aviv, Israel, and I live in Prague. I work in Hebrew and in English, with clients anywhere.</p>
         <p class="quiet">The precision is earned. In 2024 I produced about 20,000&nbsp;words of human Hebrew-to-English reference translations for the ground-truth set Google uses to evaluate its translation models.</p>
@@ -1244,7 +1247,7 @@ a.film__play { text-decoration: none; }
     next:    { client: 'You',               job: 'Your deck or brand',               year: '',           round: '',            status: 'Write to me' }
   };
   // Measured from each sheet's image files by tools/build_press.py.
-  var INKS = {"top":["#093927","#ffffff","#77877f","#4d655b","#a9b5af"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#95a499"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"mint":["#241f19","#ab792c","#765220","#dc9c34","#513816","#55dc8e","#f3c971"],"logo":["#f7f6f0","#093927","#70bed1","#2295af","#55919c","#d4ddd7"],"bina":["#f4eddd","#492826","#6f91ad","#7d57c2","#ad4d42","#a98951","#5ee997"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#5a4b55","#82a1b2","#b35e42","#cf9b89"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cb5a3e","#86cdc5"],"bidder":["#0d2329","#ffffff","#cff0fc","#42221c","#225463","#746654","#8cb5be"],"mailers":["#d0eef9","#ffffff","#12313b","#285a6a","#706658","#80908e","#af9a7d"],"writer":["#c5ccd4","#a7abb1","#83868a"]};
+  var INKS = {"top":["#093927","#ffffff","#77877f","#4d655b","#a9b5af"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#95a499"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"mint":["#241f19","#ab792c","#765220","#dc9c34","#513816","#55dc8e","#f3c971"],"logo":["#f7f6f0","#093927","#70bed1","#2295af","#55919c","#d4ddd7"],"bina":["#f4eddd","#492826","#6f91ad","#7d57c2","#ad4d42","#a98951","#5ee997"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#5a4b55","#82a1b2","#b35e42","#cf9b89"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cb5a3e","#86cdc5"],"bidder":["#0d2329","#ffffff","#cff0fc","#42221c","#225463","#746654","#8cb5be"],"mailers":["#d0eef9","#ffffff","#12313b","#285a6a","#8d6b52","#4d332a","#a99477"],"writer":["#c5ccd4","#a7abb1","#83868a"]};
   // The press's own bar: the four process colours, their three overprints, and tints.
   var PROCESS = ['#00a0e3', '#e5007d', '#ffe500', '#141414', '#e2231a', '#00a651', '#2e3192', '#7fcff1', '#f27fbe', '#fff27f', '#8a8a8a', '#bfe7f8', '#f8bfde', '#c8c8c8'];
 
