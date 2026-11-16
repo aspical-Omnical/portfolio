@@ -641,6 +641,7 @@ html:has(.cam[open]) { overflow: hidden; }
 .film { margin-top: 1rem; max-width: 40rem; }
 .film__frame { position: relative; aspect-ratio: 16 / 9; background: #0b0b0b; overflow: hidden; }
 .film__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.film__frame video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: #0b0b0b; object-fit: contain; }
 .film__play { position: absolute; inset: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; border: 0; border-radius: 0; background: #0b0b0b; color: #f4f1ea; font: inherit; font-weight: 700; letter-spacing: .02em; cursor: pointer; transition: transform 160ms cubic-bezier(.23, 1, .32, 1); }
 .film__play svg { width: 4rem; height: 4rem; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .film__play svg path { fill: currentColor; stroke: none; }
@@ -655,11 +656,24 @@ a.film__play { text-decoration: none; }
 .cycle { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; margin-top: clamp(1.5rem, 4vw, 3rem); }
 @media (min-width: 56rem) { .cycle { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
 .cycle__map { display: block; width: 100%; height: auto; max-width: 44rem; overflow: visible; font-family: inherit; }
-.cycle__arc { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; opacity: .75; }
-.cycle__core { fill: none; stroke: currentColor; stroke-width: 3; }
-.cycle__story { font-size: 46px; font-weight: 800; letter-spacing: -.01em; fill: currentColor; }
+.cycle__arc { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .6; }
+/* the four crafts are four inks laid over each other; only where all four line up does the picture come out whole */
+.cycle__inks { isolation: isolate; }
+.cycle__ink { mix-blend-mode: var(--cyc-blend, multiply); opacity: var(--cyc-alpha, .9); }
+.cycle__ink--1 { fill: var(--cyc-1); } .cycle__ink--2 { fill: var(--cyc-2); } .cycle__ink--3 { fill: var(--cyc-3); } .cycle__ink--4 { fill: var(--cyc-4); }
+.cycle__story { font-size: 44px; font-weight: 800; letter-spacing: -.01em; fill: var(--cyc-story, #fff); }
 .cycle__node { font-size: 23px; font-weight: 700; fill: currentColor; }
 .cycle__arrow, .cycle__out { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.cycle__slip { fill: var(--cyc-slip, transparent); stroke: currentColor; stroke-width: 1.6; }
+.cycle__slip--under { opacity: .45; }
+@media (prefers-reduced-motion: no-preference) {
+  .cycle__ink { transition: transform 900ms cubic-bezier(.23, 1, .32, 1); }
+  .cycle__map:hover .cycle__ink--1 { transform: translate(0, -10px); } .cycle__map:hover .cycle__ink--2 { transform: translate(10px, 0); }
+  .cycle__map:hover .cycle__ink--3 { transform: translate(0, 10px); } .cycle__map:hover .cycle__ink--4 { transform: translate(-10px, 0); }
+}
+.cycle { --cyc-1: var(--cyan); --cyc-2: var(--magenta); --cyc-3: var(--yellow); --cyc-4: #8a8a86; --cyc-story: #fff; --cyc-slip: var(--sheet, #fff); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cycle { --cyc-blend: screen; --cyc-4: #9a9a96; --cyc-story: #141414; } }
+:root[data-theme="dark"] .cycle { --cyc-blend: screen; --cyc-4: #9a9a96; --cyc-story: #141414; }
 .cycle__key { display: grid; gap: 1.1rem; margin: 0; }
 .cycle__key dt { font-weight: 800; }
 .cycle__key dd { margin: .25rem 0 0; max-width: 34ch; }
@@ -729,8 +743,8 @@ a.film__play { text-decoration: none; }
       </div>
     </div>
     <div class="row row--2">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/bf-gantt.webp" width="1600" height="900" alt="Slide: an execution plan as a Gantt chart, placeholder text" loading="lazy"></button><figcaption class="cap">The plan, as a Gantt</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/bf-opportunity.webp" width="1600" height="900" alt="Slide: a market drawn as three bars, placeholder text" loading="lazy"></button><figcaption class="cap">A market, as three bars</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/bf-growth.webp" width="1600" height="900" alt="Slide: five years drawn as five rising green bars, placeholder text" loading="lazy"></button><figcaption class="cap">Five years, as rising bars</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/bf-slopes.webp" width="1600" height="900" alt="Slide: three measures, each drawn as a slope from a baseline to fifty weeks, placeholder text" loading="lazy"></button><figcaption class="cap">Before and after, as three slopes</figcaption></figure>
     </div>
     <dl class="credits">
       <div><dt>My role</dt><dd>Story, English copy, visual language, logo, production, presenter prep</dd></div>
@@ -785,9 +799,13 @@ a.film__play { text-decoration: none; }
       <p class="prose">A house brings its Hebrew catalogue. MINT translates every lot, checks each translation against what the house wrote, and brings a person only the lots that need a decision. Here is one decision, start to finish, in MINT&rsquo;s public sandbox, on a sample lot.</p>
     </div>
     <div class="row row--3">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-decision.webp" width="900" height="1990" alt="MINT's decision card on a sample lot, a painting of an alley: the Hebrew source says it is signed lower left, and MINT's English left the signature out" loading="lazy"></button><figcaption class="cap">The catch: the signature in the source is missing from the translation</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-approve.webp" width="900" height="1980" alt="Ask MINT explains why the signature matters, then the approval shows the English before and after, with signed lower left added" loading="lazy"></button><figcaption class="cap">Ask MINT, then your call, before and after</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-clean.webp" width="905" height="1240" alt="The lot marked clean, with the corrected English" loading="lazy"></button><figcaption class="cap">The fix is in, and the lot is clean</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-1-lot.webp" width="900" height="885" alt="MINT&rsquo;s decision card on a sample lot: a painting of an alley with an arch and steps, and a close-up of its signature, lower left" loading="lazy"></button><figcaption class="cap">1 &middot; The lot: signed lower left</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-2-catch.webp" width="900" height="1047" alt="The house&rsquo;s Hebrew next to MINT&rsquo;s English, and the catch: the Hebrew says signed lower left, the English left it out" loading="lazy"></button><figcaption class="cap">2 &middot; The catch: the signature went missing</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-3-ask.webp" width="900" height="895" alt="Ask MINT about this lot: it explains that the signature bears on value and shows the exact change" loading="lazy"></button><figcaption class="cap">3 &middot; Ask MINT why it matters</figcaption></figure>
+    </div>
+    <div class="row row--2" style="max-width:48rem">
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-4-call.webp" width="900" height="865" alt="Your approval: the English before and after, with signed lower left added, and the buttons to accept the fix or keep the old line" loading="lazy"></button><figcaption class="cap">4 &middot; Your call, before and after</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-5-clean.webp" width="905" height="660" alt="The lot marked clean, with the corrected English" loading="lazy"></button><figcaption class="cap">5 &middot; The fix is in, the lot is clean</figcaption></figure>
     </div>
 
     <div class="turn">
@@ -947,19 +965,21 @@ a.film__play { text-decoration: none; }
       <p class="sub">Not a line. A circle around the story, then out to the room.</p>
     </header>
     <div class="cycle">
-      <svg class="cycle__map" viewBox="0 0 700 420" role="img" aria-label="The story in the middle of a circle of concept, copy, visual language and messaging, which leads out to production and then presenter prep">
+      <svg class="cycle__map" viewBox="0 0 760 470" role="img" aria-label="Four inks laid over each other: concept, copy, visual language and messaging. Only where all four line up, in the middle, does the picture come out whole: the story. From there it runs out to production and then presenter prep">
         <defs><marker id="cyc-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-        <path class="cycle__arc" d="M297.9 81.3 A128 128 0 0 1 368.7 152.1" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M368.7 247.9 A128 128 0 0 1 297.9 318.7" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M202.1 318.7 A128 128 0 0 1 131.3 247.9" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M131.3 152.1 A128 128 0 0 1 202.1 81.3" marker-end="url(#cyc-head)"/>
-        <circle class="cycle__core" cx="250" cy="200" r="64"/>
-        <text class="cycle__story" x="250" y="215" text-anchor="middle">Story</text>
-        <text class="cycle__node" x="250" y="54" text-anchor="middle">Concept</text>
-        <text class="cycle__node" x="396" y="208" text-anchor="start">Copy</text>
-        <text class="cycle__node" x="250" y="366" text-anchor="middle">Visual language</text>
-        <text class="cycle__node" x="104" y="208" text-anchor="end">Messaging</text>
-        <path class="cycle__out" d="M354.1 288.3 L 470 330" marker-end="url(#cyc-head)"/>
-        <text class="cycle__node" x="482" y="342">Production</text>
-        <path class="cycle__out" d="M540 356 V 392" marker-end="url(#cyc-head)"/>
-        <text class="cycle__node" x="482" y="414">Presenter prep</text>
+        <path class="cycle__arc" d="M375.2 66.7 A174 174 0 0 1 471.3 162.8" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M471.3 293.2 A174 174 0 0 1 375.2 389.3" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M244.8 389.3 A174 174 0 0 1 148.7 293.2" marker-end="url(#cyc-head)"/><path class="cycle__arc" d="M148.7 162.8 A174 174 0 0 1 244.8 66.7" marker-end="url(#cyc-head)"/>
+        <g class="cycle__inks"><circle class="cycle__ink cycle__ink--1" cx="310" cy="182" r="108"/><circle class="cycle__ink cycle__ink--2" cx="356" cy="228" r="108"/><circle class="cycle__ink cycle__ink--3" cx="310" cy="274" r="108"/><circle class="cycle__ink cycle__ink--4" cx="264" cy="228" r="108"/></g>
+        <text class="cycle__story" x="310" y="243" text-anchor="middle">Story</text>
+        <text class="cycle__node" x="310" y="36" text-anchor="middle">Concept</text>
+        <text class="cycle__node" x="502" y="236" text-anchor="start">Copy</text>
+        <text class="cycle__node" x="310" y="436" text-anchor="middle">Visual language</text>
+        <text class="cycle__node" x="118" y="236" text-anchor="end">Messaging</text>
+        <path class="cycle__out" d="M441.1 319.8 L 540 346" marker-end="url(#cyc-head)"/>
+        <rect class="cycle__slip cycle__slip--under" x="556" y="338" width="198" height="44"/><rect class="cycle__slip" x="550" y="332" width="198" height="44"/>
+        <text class="cycle__node" x="566" y="362">Production</text>
+        <path class="cycle__out" d="M649 384 V 404" marker-end="url(#cyc-head)"/>
+        <rect class="cycle__slip cycle__slip--under" x="556" y="418" width="198" height="44"/><rect class="cycle__slip" x="550" y="412" width="198" height="44"/>
+        <text class="cycle__node" x="566" y="442">Presenter prep</text>
       </svg>
       <dl class="cycle__key">
         <div><dt>Story</dt><dd>What must the room believe when the last slide closes? Everything else turns around that.</dd></div>
@@ -988,7 +1008,7 @@ a.film__play { text-decoration: none; }
       <p class="sub">A foot and ankle surgeon’s website, everything but the code. Then his conference decks and posters.</p>
     </header>
     <div class="duo">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/clinic-home.webp" width="900" height="506" alt="Home page of the clinic website, in Hebrew, with hand-drawn illustrations of feet" loading="lazy"></button><figcaption class="cap">The clinic site, home page</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/clinic-home.webp" width="1440" height="790" alt="Home page of the clinic website, in Hebrew: the surgeon in theatre dress bandaging a foot, beside hand-drawn illustrations of feet" loading="lazy"></button><figcaption class="cap">The clinic site, home page</figcaption></figure>
       <div class="prose">
         <p>User flows and wireframes, page copy, visual design and every asset, plus a video guide for whoever edits the site. An agency developed it to my spec.</p>
         <p>On the same hours bank: the logo and letter templates, and the decks and posters he takes to AOFAS and EWMA.</p>
@@ -996,7 +1016,7 @@ a.film__play { text-decoration: none; }
     </div>
     <div class="row row--3">
       <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/clinic-flow.webp" width="1531" height="1600" alt="A board of user flows and page wireframes for the clinic site" loading="lazy"></button><figcaption class="cap">Flows and wireframes first</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/clinic-surgery.webp" width="900" height="1400" alt="The surgeries and payments page of the clinic site, whole: hand-drawn feet before and after each operation, and the payment routes" loading="lazy"></button><figcaption class="cap">Surgeries and payments, the whole page</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/clinic-surgery.webp" width="1440" height="1588" alt="The surgeries and payments page of the clinic site, whole: hand-drawn feet before and after each operation, the payment routes, and the booking button at the foot of the page" loading="lazy"></button><figcaption class="cap">Surgeries and payments, the whole page</figcaption></figure>
       <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/ewma-cost.webp" width="1400" height="991" alt="One panel of a conference e-poster: cost and convenience results with a table and two charts" loading="lazy"></button><figcaption class="cap">E-poster panel, EWMA 2025</figcaption></figure>
     </div>
     <dl class="credits">
@@ -1013,14 +1033,14 @@ a.film__play { text-decoration: none; }
       <h2 class="display">Captain Caption</h2>
       <p class="sub">A subtitling brand whose initials stand up and become its hero.</p>
     </header>
-    <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/cc-morph.webp" width="2520" height="474" alt="The shift in six frames: the resting mark, two letter C's lying side by side on a dark tile, turns and rises until the tile is a shield and the C's are a hero with a head and shoulders" loading="lazy"></button><figcaption class="cap">The shift, from the resting mark to the hero</figcaption></figure>
+    <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/cc-morph.webp" width="2520" height="474" alt="The shift in six frames: the resting mark, two letter C's lying side by side on a dark tile above white subtitle lines, turns and rises until the tile is a shield and the C's are a hero with a head and shoulders, the subtitle lines under its feet" loading="lazy"></button><figcaption class="cap">The shift, from the resting mark to the hero</figcaption></figure>
     <div class="row duo">
       <div class="prose">
         <p>The mark starts as two C’s lying side by side. Then they stand up: one becomes the head, the other the shoulders, and the caption line stays under the feet.</p>
         <p>That is the shift, and the whole identity hangs on it: the letters for small sizes, the hero for large ones, and the turn between them as the brand’s one move.</p>
       </div>
       <div class="shift">
-        <img id="shift-img" src="assets/cc-shift-still.webp" data-still="assets/cc-shift-still.webp" width="420" height="474" alt="The resting mark: two C's lying side by side on a dark tile, before they stand up" loading="lazy">
+        <img id="shift-img" src="assets/cc-shift-still.webp" data-still="assets/cc-shift-still.webp" width="420" height="474" alt="The resting mark: two C's lying side by side on a dark tile, white subtitle lines under them, before they stand up" loading="lazy">
         <button class="btn" type="button" id="shift-btn" aria-pressed="false">Play the shift</button>
       </div>
     </div>
@@ -1045,10 +1065,9 @@ a.film__play { text-decoration: none; }
       <p>Since 2025 I lead TheBidder&rsquo;s e-commerce and marketing: the online stores, the email and ad campaigns, and the sales-promotion projects. I have been the house translator since 2019.</p>
       <p>In October 2026 I designed its new website: the home page, and a page that tells the story of a single lot, what to look at in it and what is not known about it. I handed the design to the developer as a kit.</p>
     </div>
-    <div class="row row--3">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-site.webp" data-tall="page"><img src="assets/bidder-site-top.webp" width="1100" height="1500" alt="Top of TheBidder's new home page in deep teal: the seal logo, a Torah crown under the headline, the current sale on a glowing card, and a row of lots" loading="lazy"></button><figcaption class="cap">The website, home page</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-story.webp" data-tall="page"><img src="assets/bidder-story-top.webp" width="1100" height="1500" alt="A lot's story page: a Torah crown, its sale and lot number, the story, and three close-ups of what to look at" loading="lazy"></button><figcaption class="cap">A lot&rsquo;s story</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-stories.webp" data-tall="page"><img src="assets/bidder-stories-top.webp" width="1100" height="1500" alt="The lot stories section: a lead story and a grid of earlier ones, each tagged with the platform it sold on" loading="lazy"></button><figcaption class="cap">The stories, all together</figcaption></figure>
+    <div class="row row--2" style="max-width:52rem">
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-site.webp" data-tall="page"><img src="assets/bidder-site-top.webp" width="1100" height="1265" alt="Top of TheBidder&rsquo;s new home page in deep teal: the seal logo, a Torah crown under the headline, the current sale on a card, and lots from earlier sales" loading="lazy"></button><figcaption class="cap">The home page</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-story.webp" data-tall="page"><img src="assets/bidder-story-look.webp" width="1100" height="835" alt="From a lot&rsquo;s story page: three close-ups of what to look at in the piece, and a box on what is not known about it" loading="lazy"></button><figcaption class="cap">A lot&rsquo;s story: what to look at, and what is not known</figcaption></figure>
     </div>
     <div class="turn">
       <h3 class="display">The logo</h3>
@@ -1059,14 +1078,15 @@ a.film__play { text-decoration: none; }
       <figure class="paste"><div class="paste__still plain"><img src="assets/bidder-logo-new.webp" width="1200" height="439" alt="TheBidder's logo now: the same lettering in a white field inside a turquoise ring" loading="lazy"></div><figcaption class="cap">Now</figcaption></figure>
     </div>
     <div class="turn">
-      <h3 class="display">The Berlin trip</h3>
-      <p class="prose">My landing page for the house&rsquo;s collectors&rsquo; trip to Berlin, October 2026, with my poster on it. The leaves fall here as they do on the page.</p>
+      <h3 class="display">The trips</h3>
+      <p class="prose">My landing pages for the house&rsquo;s two collectors&rsquo; trips in 2026: central Europe in September and Berlin in October. The Berlin poster is mine; the poster further down the central Europe page is another creative&rsquo;s design. The leaves fall here as they do on the pages.</p>
     </div>
-    <div class="row" style="max-width:34rem">
-      <figure class="paste leafy" data-leaves><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-berlin-page.webp" data-tall="page"><img src="assets/bidder-berlin-page-top.webp" width="680" height="1500" alt="Top of the Berlin trip landing page: the title Berlin that only Noy knows, the dates, and the poster below" loading="lazy"></button><figcaption class="cap">The landing page, with its leaves</figcaption></figure>
+    <div class="row row--2" style="max-width:46rem">
+      <figure class="paste leafy" data-leaves><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-berlin-page.webp" data-tall="page"><img src="assets/bidder-berlin-page-top.webp" width="680" height="1100" alt="From the Berlin trip landing page: my poster, Berlin that only Noy knows, with a gramophone and old suitcases before a Berlin street, on the page&rsquo;s dark ground" loading="lazy"></button><figcaption class="cap">Berlin, October 2026</figcaption></figure>
+      <figure class="paste leafy" data-leaves><button class="paste__btn" type="button" data-zoom data-full="assets/bidder-europe-page.webp" data-tall="page"><img src="assets/bidder-europe-page-top.webp" width="680" height="1100" alt="The first screen of the central Europe trip landing page: the title Bargain hunt in central Europe, Wroclaw, Jelenia Gora and Prague, 24 to 28 September 2026, over a running horse in bright colours" loading="lazy"></button><figcaption class="cap">Central Europe, September 2026</figcaption></figure>
     </div>
     <dl class="credits">
-      <div><dt>My role</dt><dd>E-commerce and marketing lead; the website, the lot stories and the logo; the trip campaign</dd></div>
+      <div><dt>My role</dt><dd>E-commerce and marketing lead; the website, the lot stories and the logo; both trip campaigns</dd></div>
     </dl>
   </div>
 </section>
@@ -1080,12 +1100,12 @@ a.film__play { text-decoration: none; }
     </header>
     <p class="prose">Every TheBidder sale gets its own sequence: the announcement, the days before, sale day, then the after-sale until it closes. BINA builds each mail from the catalogue, and a person approves every send. It also makes the sale&rsquo;s poster: it picks lots from across the catalogue, cuts each object out of its photograph and packs them together.</p>
     <div class="turn">
-      <h3 class="display">Before and after</h3>
-      <p class="prose">The house&rsquo;s own mail for its May 2026 sale, and the first mail of sale 138 in November.</p>
+      <h3 class="display">May and November</h3>
+      <p class="prose">My mail for the house&rsquo;s May 2026 sale on Bidspirit, and the first mail of sale 138 in November, built by BINA. Each opens whole on a click.</p>
     </div>
-    <div class="row row--2">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-old.webp" data-tall><img src="assets/mail-old-top.webp" width="680" height="1500" alt="The house's own mail for its May 2026 sale: centred lines of text in blue boxes" loading="lazy"></button><figcaption class="cap">Before: the house&rsquo;s mail, May 2026</figcaption></figure>
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-138-m1.webp" data-tall><img src="assets/mail-138-m1-top.webp" width="680" height="1500" alt="Sale 138, mail 1: the announcement, with the sale's poster and lots on glowing cards" loading="lazy"></button><figcaption class="cap">After: sale 138, mail 1, November 2026</figcaption></figure>
+    <div class="row row--2" style="max-width:40rem">
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-old.webp" data-tall><img src="assets/mail-old-top.webp" width="680" height="1030" alt="The opening of my mail for the May 2026 sale on Bidspirit: centred lines of Hebrew in blue boxes" loading="lazy"></button><figcaption class="cap">May 2026, the sale on Bidspirit</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom data-full="assets/mail-138-m1.webp" data-tall><img src="assets/mail-138-m1-top.webp" width="680" height="852" alt="The opening of sale 138, mail 1: the house seal over the sale&rsquo;s date and a greeting, on a ground of the sale&rsquo;s objects" loading="lazy"></button><figcaption class="cap">November 2026, sale 138, mail 1</figcaption></figure>
     </div>
     <div class="turn">
       <h3 class="display">The posters</h3>
@@ -1116,10 +1136,11 @@ a.film__play { text-decoration: none; }
       <div class="prose">
         <h3 class="display">Flytrex Sky</h3>
         <p>I wrote the script for the Flytrex Sky drone’s promo film. It passed 40,000&nbsp;views and was covered by major US blogs.</p>
-        <div class="film" data-yt="oGm3UrXmMuA"><div class="film__frame"><button class="film__play" type="button"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19"/><path d="M16 12.5v15l12-7.5z"/></svg><span>Play the film here</span></button></div><a class="link film__out" href="https://www.youtube.com/watch?v=oGm3UrXmMuA" target="_blank" rel="noopener">Or watch it on YouTube</a></div>
+        <div class="film"><div class="film__frame"><video src="assets/flytrex-sky.mp4" poster="assets/flytrex-poster.webp" width="1280" height="720" controls preload="none" playsinline aria-label="Flytrex Sky, the promo film I wrote, 1 minute 57 seconds"></video></div></div>
         <h3 class="display">The Living Room</h3>
-        <p>I translated The Living Room, a book of prose by the artist Netai Halup, from Hebrew into English. 2025&ndash;26.</p>
-        <p class="quiet">For the same book I translated his conversation with Smadar Keren, director and curator of the Beit Uri and Rami Nehoshtan Museum. She wrote back that the translation was excellent.</p>
+        <p>I translated The Living Room by the artist Netai Halup from Hebrew into English: a book about recollection, written in small diary excerpts. 2025&ndash;26.</p>
+        <figure class="paste" style="max-width:24rem"><button class="paste__btn" type="button" data-zoom><img src="assets/book-living-room.webp" width="1160" height="960" alt="The Living Room, two hardback editions side by side, Hebrew and English, each bound in a cover printed with crumpled squared paper" loading="lazy"></button><figcaption class="cap">The book, in Hebrew and in English</figcaption></figure>
+        <p class="quiet">For the same book I translated his conversation with Smadar Keren, director and curator of the Beit Uri and Rami Nehoshtan Museum.</p>
       </div>
     </div>
   </div>
@@ -1132,7 +1153,7 @@ a.film__play { text-decoration: none; }
       <h2 class="display">Who is talking</h2>
     </header>
     <div class="duo duo--flip">
-      <figure class="paste" style="max-width:22rem"><div class="paste__still"><img src="assets/portrait.webp" width="520" height="520" alt="Asaf Calderon, outdoors in autumn" loading="lazy"></div></figure>
+      <figure class="paste" style="max-width:22rem"><div class="paste__still"><img src="assets/portrait.webp" width="652" height="815" alt="Asaf Calderon, outdoors in autumn" loading="lazy"></div></figure>
       <div class="prose">
         <p>I am a strategist, writer and deck builder, trained as a storyteller. Since 2008 I have shaped positioning, copy and pitch decks for businesses launching or growing in their market. Since 2024 I also build AI products.</p>
         <p>Clients get a storyteller’s structure, a translator’s precision and a producer’s delivery: a clear story, tested, ready to present.</p>
@@ -1214,15 +1235,15 @@ a.film__play { text-decoration: none; }
     mint:    { client: 'MINT, my own',      job: 'The mark, in two languages',       year: '2026',       round: 'Fourth mark', status: 'At work on MINT’s welcome page' },
     method:  { client: 'Every deck',        job: 'Story first, in a circle',       year: '',           round: '',            status: 'Sample deck for a fictional company' },
     clinic:  { client: 'Dr. Eyal Melamed',  job: 'Website, decks and posters',       year: '',           round: '',            status: 'Developed by an agency, to my spec' },
-    caption: { client: 'Captain Caption',   job: 'Identity',                         year: '',           round: '',            status: '' },
-    bidder:  { client: 'TheBidder',         job: 'Trip poster and landing pages',    year: '2026',       round: '',            status: 'I lead e-commerce and marketing' },
+    caption: { client: 'Captain Caption',   job: 'Identity: the shift',              year: '',           round: '',            status: 'Letters small, the hero large' },
+    bidder:  { client: 'TheBidder',         job: 'Website, logo, trip campaigns',    year: '2026',       round: '',            status: 'I lead e-commerce and marketing' },
     mailers: { client: 'TheBidder',         job: 'A run of mails for every sale',    year: '2026',       round: '',            status: 'A person approves every send' },
     writer:  { client: 'Flytrex',           job: 'Script for the Sky promo film',    year: '',           round: '',            status: 'Passed 40,000 views' },
     about:   { client: '',                  job: 'Strategist, writer, deck builder', year: 'Since 2008', round: '',            status: 'From Tel Aviv, based in Prague' },
     next:    { client: 'You',               job: 'Your deck or brand',               year: '',           round: '',            status: 'Write to me' }
   };
   // Measured from each sheet's image files by tools/build_press.py.
-  var INKS = {"top":["#093927","#ffffff","#77877f","#4d655b","#a9b5af"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#5d796a"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"mint":["#241f19","#765220","#a9782b","#d99934","#51de8d","#433b28","#f5c35d"],"logo":["#f7f6f0","#093927","#70bed1","#2295af","#55919c","#d4ddd7"],"bina":["#f4eddd","#492826","#6f91ad","#7d57c2","#ad4d42","#a98951","#5ee997"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#252e3b","#9e5b4a","#d3beb8","#748794"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cf593c","#7fcac2"],"bidder":["#16333b","#ffffff","#cff0fc","#09131b","#979485","#add5e1","#3d6976"],"mailers":["#13303a","#d0eef9","#275a6b","#7d7160","#665244","#0d1617","#999f94"]};
+  var INKS = {"top":["#093927","#ffffff","#77877f","#4d655b","#a9b5af"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#95a499"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"mint":["#241f19","#ab792c","#765220","#dc9c34","#513816","#55dc8e","#f3c971"],"logo":["#f7f6f0","#093927","#70bed1","#2295af","#55919c","#d4ddd7"],"bina":["#f4eddd","#492826","#6f91ad","#7d57c2","#ad4d42","#a98951","#5ee997"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#5a4b55","#82a1b2","#b35e42","#cf9b89"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cb5a3e","#86cdc5"],"bidder":["#0d2329","#ffffff","#cff0fc","#42221c","#225463","#746654","#8cb5be"],"mailers":["#d0eef9","#13313b","#275a6b","#7f6750","#fffffe","#b5ae98","#a28c6f"],"writer":["#c5ccd4","#a7abb1","#83868a"]};
   // The press's own bar: the four process colours, their three overprints, and tints.
   var PROCESS = ['#00a0e3', '#e5007d', '#ffe500', '#141414', '#e2231a', '#00a651', '#2e3192', '#7fcff1', '#f27fbe', '#fff27f', '#8a8a8a', '#bfe7f8', '#f8bfde', '#c8c8c8'];
 
@@ -1361,11 +1382,11 @@ a.film__play { text-decoration: none; }
     var m = steps[home + lensAt];
     var nx = (px - r.left - pl - ox) / s, ny = (py - r.top - pt) / s;  // the file pixel under the pointer
     // A piece can name the spot the loupe is for (data-loupe: centre x, centre y, width, in file pixels). The glass is then
-    // made the size of that spot as it first opens, and while the pointer is on the spot the glass shows all of it.
+    // made the size of that spot, so it can hold all of it. It never snaps to the spot: like a real glass, it shows what is
+    // under the pointer (Asaf, 16 Nov: the glass that held on the "fi" "doesn't look real").
     var spot = img.dataset.loupe ? img.dataset.loupe.split(',').map(Number) : null;
     var outer = spot ? Math.max(236, Math.min(500, Math.round(spot[2] * base) + 20)) : 236;   // the glass's outer size, its rim included
     if (lensGlass.offsetWidth !== outer) { lensGlass.style.width = lensGlass.style.height = outer + 'px'; lensKey = ''; }
-    if (spot && Math.hypot(nx - spot[0], ny - spot[1]) < spot[2] * .62) { nx = spot[0]; ny = spot[1]; }
     var R = lensImg.clientWidth / 2, src = img.currentSrc || img.src, key = src + '|' + m.toFixed(3);
     if (key !== lensKey) {
       lensKey = key;
@@ -2308,37 +2329,7 @@ window.PressCamera = (function () {
 })();
 
 
-// The Flytrex film plays in the page on a click. Where a host forbids the embed (claude.ai does), the frame is a link to the film on YouTube instead.
-(function () {
-  var films = Array.prototype.slice.call(document.querySelectorAll('.film[data-yt]'));
-  var noEmbed = /(^|\.)claudeusercontent\.com$/.test(location.hostname);
-  function toLink(f) {
-    var frame = f.querySelector('.film__frame'), b = f.querySelector('.film__play'), out = f.querySelector('.film__out');
-    if (f.classList.contains('is-link') || !frame || !b || !out) return;
-    var fr = frame.querySelector('iframe'); if (fr) frame.removeChild(fr);
-    var a = document.createElement('a');
-    a.className = 'film__play'; a.href = out.href; a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = b.innerHTML;
-    var s = a.querySelector('span'); if (s) s.textContent = 'Watch the film on YouTube';
-    frame.replaceChild(a, b);
-    f.classList.remove('is-on'); f.classList.add('is-link');
-  }
-  films.forEach(function (f) {
-    if (noEmbed) { toLink(f); return; }
-    var b = f.querySelector('.film__play'); if (!b) return;
-    b.addEventListener('click', function () {
-      var i = document.createElement('iframe');
-      i.src = 'https://www.youtube-nocookie.com/embed/' + f.getAttribute('data-yt') + '?autoplay=1&rel=0';
-      i.title = 'Flytrex Sky promo film';
-      i.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
-      i.setAttribute('allowfullscreen', '');
-      f.querySelector('.film__frame').appendChild(i); f.classList.add('is-on');
-    });
-  });
-  document.addEventListener('securitypolicyviolation', function (e) {
-    if (/youtube/.test(e.blockedURI || '')) films.forEach(toLink);
-  });
-})();
+// The Flytrex film is a video file on the page (Asaf, 16 Nov: "i don't want an external link"); the browser's own player plays it.
 
 // The Berlin landing page's own falling leaves and paper slips (its code, made smaller), over its picture on this page.
 // They fall only while the picture is on screen, and not at all for a visitor who asks for less motion.
