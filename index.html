@@ -2354,6 +2354,27 @@ window.PressCamera = (function () {
 
 
 // The Flytrex film is a video file on the page (Asaf, 16 Nov: "i don't want an external link"); the browser's own player plays it.
+// Inside claude.ai's frame the player never starts on the file itself (seen 16 Nov on version 13: the clock stays at 0:00;
+// the host answers a player's range request with the whole file). There, a press on play fetches the film once, then
+// plays it from that copy. Any other host keeps the plain player.
+(function () {
+  if (!/(^|\.)claudeusercontent\.com$/.test(location.hostname) || !window.fetch || !window.URL || !URL.createObjectURL) return;
+  Array.prototype.forEach.call(document.querySelectorAll('.film video[src]'), function (v) {
+    var src = v.getAttribute('src'), copy = null, busy = false, say = document.createElement('p');
+    say.className = 'cap'; say.setAttribute('role', 'status');
+    v.closest('.film').appendChild(say);
+    v.addEventListener('play', function () {
+      if (copy || busy) return;
+      busy = true; v.pause(); v.removeAttribute('src'); v.load();   // stop the player's own download; the copy takes its place
+      v.setAttribute('aria-busy', 'true'); say.textContent = 'Loading the film…';
+      fetch(src).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); }).then(function (b) {
+        copy = URL.createObjectURL(b.type ? b : new Blob([b], { type: 'video/mp4' }));
+        v.src = copy; v.removeAttribute('aria-busy'); say.textContent = '';
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      }).catch(function () { busy = false; v.src = src; v.removeAttribute('aria-busy'); say.textContent = 'The film could not load here. Try again in a moment.'; });
+    });
+  });
+})();
 
 // The Berlin landing page's own falling leaves and paper slips (its code, made smaller), over its picture on this page.
 // They fall only while the picture is on screen, and not at all for a visitor who asks for less motion.
