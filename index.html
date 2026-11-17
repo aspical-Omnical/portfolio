@@ -910,12 +910,17 @@ a.film__play { text-decoration: none; }
       <li class="paste"><div class="paste__still"><img src="assets/mint-s8.webp" width="900" height="412" alt="The final mark: the word Mint as a rendered piece of gold on stone" loading="lazy"></div><p class="cap">November: struck gold, for real</p></li>
     </ol>
 
-    <div class="row row--wide-narrow">
-      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-page.webp" width="1600" height="922" alt="MINT's welcome page as it is live: the mark beside the BINA plate, a band of struck gold, the line Your next catalogue can go out in English too, and a gold button to arrange a demonstration" loading="lazy"></button><figcaption class="cap">The mark at work, on MINT’s welcome page</figcaption></figure>
-      <dl class="credits" style="margin-top:0">
-        <div><dt>My role</dt><dd>Founder and product lead; the mark</dd></div>
-      </dl>
+    <div class="turn">
+      <h3 class="display">The mark at work</h3>
+      <p class="prose">MINT&rsquo;s page for arranging a demonstration, live, in English and in Hebrew. The mark stands opposite the words in each language.</p>
     </div>
+    <div class="row row--2">
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-demo-en.webp" width="1600" height="800" alt="MINT's demonstration page in English: the gold Mint mark on dark stone on the right; on the left the line Want your catalogue to sell to the whole world?, what MINT is, and a gold button to arrange a demonstration" loading="lazy"></button><figcaption class="cap">In English</figcaption></figure>
+      <figure class="paste"><button class="paste__btn" type="button" data-zoom><img src="assets/mint-demo-he.webp" width="1600" height="800" alt="The same page in Hebrew: the Hebrew Mint mark on the left, the words and the gold button on the right" loading="lazy"></button><figcaption class="cap">In Hebrew</figcaption></figure>
+    </div>
+    <dl class="credits">
+      <div><dt>My role</dt><dd>Founder and product lead; the mark</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -1256,7 +1261,7 @@ a.film__play { text-decoration: none; }
     rounds:  { client: 'Bonfix',            job: 'Their deck to round XLIX',      year: '2026',       round: 'XLIX',        status: '15 July to 5 November, 49 rounds' },
     logo:    { client: 'Bonfix',            job: 'Logo and glyph',                   year: '2026',       round: '',            status: 'Heading to US trademark registration' },
     bina:    { client: 'TheBidder',         job: 'BINA: identity and product family', year: '',          round: '',            status: 'The back office I built and run' },
-    mint:    { client: 'MINT, my own',      job: 'The mark, in two languages',       year: '2026',       round: 'Fourth mark', status: 'At work on MINT’s welcome page' },
+    mint:    { client: 'MINT, my own',      job: 'The mark, in two languages',       year: '2026',       round: 'Fourth mark', status: 'At work on MINT’s demonstration page' },
     method:  { client: 'Tidewell, fictional', job: 'Four crafts, one story',         year: '',           round: '',            status: 'A deck you can read end to end' },
     clinic:  { client: 'Dr. Eyal Melamed',  job: 'Website, decks and posters',       year: '',           round: '',            status: 'Developed by an agency, to my spec' },
     caption: { client: 'Captain Caption',   job: 'Identity: the shift',              year: '',           round: '',            status: 'Letters small, the hero large' },
@@ -1267,7 +1272,7 @@ a.film__play { text-decoration: none; }
     next:    { client: 'You',               job: 'Your deck or brand',               year: '',           round: '',            status: 'Write to me' }
   };
   // Measured from each sheet's image files by tools/build_press.py.
-  var INKS = {"top":["#093927","#ffffff","#9caaa3","#5c7168","#315044"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#95a499"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"logo":["#f7f6f0","#093927","#52adc3","#2191aa","#578a94","#d0dad6"],"mint":["#3e331f","#796133","#a9782c","#e19f34","#0f1611","#5dd88e","#f4d183"],"bina":["#f4ebdc","#492b2e","#ad5248","#fadc90","#84568d","#7195af","#50da8e"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#5a4b55","#82a1b2","#b35e42","#cf9b89"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cf593d","#74c7bf"],"bidder":["#0d2329","#ffffff","#cff0fc","#42221c","#225463","#746654","#8cb5be"],"mailers":["#d0eef9","#ffffff","#12313b","#285a6a","#8d6b52","#4d332a","#a99477"],"writer":["#bfc4ce","#a3a4a1"]};
+  var INKS = {"top":["#093927","#ffffff","#9caaa3","#5c7168","#315044"],"bonfix":["#f6f5ee","#113a2c","#cde2d2","#95a499"],"rounds":["#f6f5ee","#091611","#809a9a","#d59f86","#d0b9b0","#315051","#806d60"],"logo":["#f7f6f0","#093927","#52adc3","#2191aa","#578a94","#d0dad6"],"mint":["#221f19","#764d1b","#a9782d","#4b371a","#e2a034","#60d68e","#f4d083"],"bina":["#f4ebdc","#492b2e","#ad5248","#fadc90","#84568d","#7195af","#50da8e"],"method":["#f6f5ee","#121f16","#d2d2ca","#324853","#737a75","#afb4ae"],"clinic":["#ffffff","#876e6e","#bdddeb","#5a4b55","#82a1b2","#b35e42","#cf9b89"],"caption":["#f1f0ec","#0b201e","#0db8aa","#cf593d","#74c7bf"],"bidder":["#0d2329","#ffffff","#cff0fc","#42221c","#225463","#746654","#8cb5be"],"mailers":["#d0eef9","#ffffff","#12313b","#285a6a","#8d6b52","#4d332a","#a99477"],"writer":["#bfc4ce","#a3a4a1"]};
   // The press's own bar: the four process colours, their three overprints, and tints.
   var PROCESS = ['#00a0e3', '#e5007d', '#ffe500', '#141414', '#e2231a', '#00a651', '#2e3192', '#7fcff1', '#f27fbe', '#fff27f', '#8a8a8a', '#bfe7f8', '#f8bfde', '#c8c8c8'];
 
